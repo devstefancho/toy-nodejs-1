@@ -20,12 +20,29 @@ mongoose
 app.set("view engine", "ejs");
 //HTTP request logger middleware
 app.use(morgan("dev"));
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   res.redirect("/blogs");
 });
 app.get("/about", (req, res) => {
   res.render("about", { title: "ABOUT" });
+});
+app.get("/create", (req, res) => {
+  res.render("create");
+});
+
+app.post("/", (req, res) => {
+  const blog = new Blog(req.body);
+  blog
+    .save()
+    .then((result) => {
+      console.log(`Data saved completely : ${result}`);
+      res.redirect("/blogs");
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 });
 
 app.get("/add-blog", (req, res) => {
