@@ -1,22 +1,60 @@
 const express = require("express");
 const morgan = require("morgan");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+
+const Blog = require("./models/blog");
 
 const app = express();
+dotenv.config();
+// connect to mongoDB
+const dbURI = process.env.dbURI;
+mongoose
+  .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then((result) => app.listen(3000))
+  .catch((err) => {
+    console.log(err);
+  });
 
-app.listen(3000);
 //set template engine as ejs
 app.set("view engine", "ejs");
 //HTTP request logger middleware
 app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
-  res.render("index", { title: "HOME" });
+  res.redirect("/blogs");
 });
-
 app.get("/about", (req, res) => {
   res.render("about", { title: "ABOUT" });
 });
 
+app.get("/add-blog", (req, res) => {
+  const blog = new Blog({
+    title: "new blog",
+    snippet: "about my new blog",
+    body: "more about my blog",
+  });
+  blog
+    .save()
+    .then((result) => {
+      res.send(result);
+      console.log("save data");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
+
+app.get("/blogs", (req, res) => {
+  Blog.find()
+    .sort({ createdAt: -1 })
+    .then((result) => {
+      res.render("index", { title: "All Blogs", blogs: result });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 app.use((req, res) => {
   res.render("error_404", { title: "404 Not Found" });
 });
