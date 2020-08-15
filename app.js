@@ -58,7 +58,7 @@ app.get("/blogs", (req, res) => {
 });
 
 //single post
-app.get("/blog/:id", (req, res) => {
+app.get("/blogs/:id", (req, res) => {
   const id = req.params.id;
   console.log(`send id : ${id}`);
   //check id validation
@@ -74,7 +74,7 @@ app.get("/blog/:id", (req, res) => {
 });
 
 //delete blog
-app.delete("/blog/:id", (req, res) => {
+app.delete("/blogs/:id", (req, res) => {
   const id = req.params.id;
   console.log(req.body);
   Blog.findByIdAndDelete(id)

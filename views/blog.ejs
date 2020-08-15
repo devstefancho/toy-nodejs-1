@@ -13,7 +13,7 @@
       deleteBlog.addEventListener("click", fetchData);
       // callback function for DELETE request and redirect
       function fetchData() {
-        const endpoint = `/blog/${deleteBlog.dataset.doc}`;
+        const endpoint = `/blogs/${deleteBlog.dataset.doc}`;
         fetch(endpoint, {
           method: "DELETE",
           body: "data is sent",
