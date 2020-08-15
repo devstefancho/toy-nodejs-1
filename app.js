@@ -46,23 +46,6 @@ app.post("/", (req, res) => {
     });
 });
 
-app.get("/add-blog", (req, res) => {
-  const blog = new Blog({
-    title: "new blog",
-    snippet: "about my new blog",
-    body: "more about my blog",
-  });
-  blog
-    .save()
-    .then((result) => {
-      res.send(result);
-      console.log("save data");
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-});
-
 app.get("/blogs", (req, res) => {
   Blog.find()
     .sort({ createdAt: -1 })
