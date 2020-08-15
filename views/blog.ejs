@@ -3,9 +3,27 @@
   <%- include('./partials/header') %>
   <body>
     <h1><%= blog.title %></h1>
-    <div class="delete">DELETE</div>
+    <a class="delete" data-doc="<%= blog._id %>">DELETE</a>
     <p><%= blog.snippet %></p>
     <p><%= blog.body %></p>
     <%- include('./partials/footer') %>
+
+    <script>
+      const deleteBlog = document.querySelector("a.delete");
+      deleteBlog.addEventListener("click", fetchData);
+      // callback function for DELETE request and redirect
+      function fetchData() {
+        const endpoint = `/blog/${deleteBlog.dataset.doc}`;
+        fetch(endpoint, {
+          method: "DELETE",
+          body: "data is sent",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            window.location.href = data.redirect;
+          })
+          .catch((err) => console.log(err));
+      }
+    </script>
   </body>
 </html>

@@ -90,6 +90,17 @@ app.get("/blog/:id", (req, res) => {
   }
 });
 
+//delete blog
+app.delete("/blog/:id", (req, res) => {
+  const id = req.params.id;
+  console.log(req.body);
+  Blog.findByIdAndDelete(id)
+    .then((result) => {
+      res.json({ redirect: "/blogs" });
+    })
+    .catch((err) => console.log(err));
+});
+
 app.use((req, res) => {
   res.render("error_404", { title: "404 Not Found" });
 });
