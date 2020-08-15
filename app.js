@@ -73,6 +73,23 @@ app.get("/blogs", (req, res) => {
       console.log(err);
     });
 });
+
+//single post
+app.get("/blog/:id", (req, res) => {
+  const id = req.params.id;
+  console.log(`send id : ${id}`);
+  //check id validation
+  if (mongoose.isValidObjectId(id)) {
+    Blog.findById(id)
+      .then((result) => {
+        res.render("blog", { title: "Single Post", blog: result });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+});
+
 app.use((req, res) => {
   res.render("error_404", { title: "404 Not Found" });
 });

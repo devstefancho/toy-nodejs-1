@@ -8,8 +8,10 @@
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, delectus.
     </div>
     <% if(blogs.length>0) { %> <% blogs.forEach(blog => { %>
-    <h3 class="title"><%= blog.title %></h3>
-    <p class="snippet"><%= blog.snippet %></p>
+    <a href="/blog/<%= blog._id %> " class="blog">
+      <h3 class="title"><%= blog.title %></h3>
+      <p class="snippet"><%= blog.snippet %></p></a
+    >
     <% }) %> <% } else { %>
     <p>There are no blogs to display</p>
     <% } %> <%- include('./partials/footer') %>
