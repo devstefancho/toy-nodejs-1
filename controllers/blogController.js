@@ -51,6 +51,8 @@ const renderSingleBlogPage = (req, res) => {
       .catch((err) => {
         console.log(err);
       });
+  } else {
+    res.render("error_404", { title: "404 Not Found" });
   }
 };
 
