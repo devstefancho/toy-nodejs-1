@@ -3,7 +3,7 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 
-const Blog = require("./models/blog");
+const blogController = require("./controllers/blogController");
 
 const app = express();
 dotenv.config();
@@ -23,67 +23,13 @@ app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-app.get("/", (req, res) => {
-  res.redirect("/blogs");
-});
-app.get("/about", (req, res) => {
-  res.render("about", { title: "ABOUT" });
-});
-app.get("/create", (req, res) => {
-  res.render("create");
-});
+app.get("/about", blogController.blogAbout);
+app.get("/create", blogController.blogCreate);
+app.get("/", blogController.renderBlogListRedirect);
+app.post("/", blogController.blogCreateSubmit);
 
-app.post("/", (req, res) => {
-  const blog = new Blog(req.body);
-  blog
-    .save()
-    .then((result) => {
-      console.log(`Data saved completely : ${result}`);
-      res.redirect("/blogs");
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-});
+app.get("/blogs", blogController.renderBlogList);
+app.get("/blogs/:id", blogController.renderSingleBlogPage);
+app.delete("/blogs/:id", blogController.deleteSingleBlog);
 
-app.get("/blogs", (req, res) => {
-  Blog.find()
-    .sort({ createdAt: -1 })
-    .then((result) => {
-      res.render("index", { title: "All Blogs", blogs: result });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
-
-//single post
-app.get("/blogs/:id", (req, res) => {
-  const id = req.params.id;
-  console.log(`send id : ${id}`);
-  //check id validation
-  if (mongoose.isValidObjectId(id)) {
-    Blog.findById(id)
-      .then((result) => {
-        res.render("blog", { title: "Single Post", blog: result });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-});
-
-//delete blog
-app.delete("/blogs/:id", (req, res) => {
-  const id = req.params.id;
-  console.log(req.body);
-  Blog.findByIdAndDelete(id)
-    .then((result) => {
-      res.json({ redirect: "/blogs" });
-    })
-    .catch((err) => console.log(err));
-});
-
-app.use((req, res) => {
-  res.render("error_404", { title: "404 Not Found" });
-});
+app.use(blogController.error404);
