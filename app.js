@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 
 const blogController = require("./controllers/blogController");
+const blogs = require("./routes/blogsRoute");
 
 const app = express();
 dotenv.config();
@@ -28,8 +29,5 @@ app.get("/create", blogController.blogCreate);
 app.get("/", blogController.renderBlogListRedirect);
 app.post("/", blogController.blogCreateSubmit);
 
-app.get("/blogs", blogController.renderBlogList);
-app.get("/blogs/:id", blogController.renderSingleBlogPage);
-app.delete("/blogs/:id", blogController.deleteSingleBlog);
-
+app.use("/blogs", blogs);
 app.use(blogController.error404);
