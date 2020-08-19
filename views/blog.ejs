@@ -4,6 +4,7 @@
   <body>
     <h1><%= blog.title %></h1>
     <a class="delete" data-doc="<%= blog._id %>">DELETE</a>
+    <a class="update-btn" data-doc="<%= blog._id %>">UPDATE</a>
     <p><%= blog.snippet %></p>
     <p><%= blog.body %></p>
     <%- include('./partials/footer') %>
@@ -24,6 +25,10 @@
           })
           .catch((err) => console.log(err));
       }
+      const updateBlog = document.querySelector("a.update-btn");
+      updateBlog.addEventListener("click", () => {
+        window.location.href = `/blogs/update/${updateBlog.dataset.doc}`;
+      });
     </script>
   </body>
 </html>

@@ -70,6 +70,17 @@ const error404 = (req, res) => {
   res.render("error_404", { title: "404 Not Found" });
 };
 
+const renderUpdatePage = (req, res) => {
+  const id = req.params.id;
+  Blog.findById(id)
+    .then((result) => {
+      res.render("update", { title: "update blog", blog: result });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 module.exports = {
   blogCreateSubmit,
   renderBlogListRedirect,
@@ -78,5 +89,6 @@ module.exports = {
   renderBlogList,
   renderSingleBlogPage,
   deleteSingleBlog,
+  renderUpdatePage,
   error404,
 };

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/header') %>
+  <body>
+    <%- include('./partials/nav') -%>
+    <div id="update">UPDATE</div>
+    <form action="/update/" method="post">
+      <label for="title" class="form_label">Title</label>
+      <input type="text" name="title" id="title" value="<%= blog.title %> " />
+      <label for="snippet" class="form_label">Snippet</label>
+      <input
+        type="text"
+        name="snippet"
+        id="snippet"
+        value="<%= blog.snippet %> "
+      />
+      <label for="body" class="form_label">Body</label>
+      <input type="text" name="body" id="body" value="<%= blog.body %> " />
+      <input type="submit" value="Update" />
+      <input type="hidden" name="id" value="<%= blog.id %> " />
+    </form>
+  </body>
+</html>
