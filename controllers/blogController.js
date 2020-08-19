@@ -70,6 +70,36 @@ const error404 = (req, res) => {
   res.render("error_404", { title: "404 Not Found" });
 };
 
+const renderUpdatePage = (req, res) => {
+  const id = req.params.id;
+  Blog.findById(id)
+    .then((result) => {
+      res.render("update", { title: "update blog", blog: result });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+const blogUpdateSubmit = (req, res) => {
+  const id = req.body.id;
+  console.log(id);
+  Blog.findByIdAndUpdate(
+    { _id: id.trim() }, // delete whitespaces in req.body.id
+    {
+      title: req.body.title,
+      snippet: req.body.snippet,
+      body: req.body.body,
+    },
+    { new: true }
+  )
+    .then((result) => console.log("Congratulation update is completed!"))
+    .then((result) => res.redirect("/blogs"))
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 module.exports = {
   blogCreateSubmit,
   renderBlogListRedirect,
@@ -78,5 +108,7 @@ module.exports = {
   renderBlogList,
   renderSingleBlogPage,
   deleteSingleBlog,
+  renderUpdatePage,
   error404,
+  blogUpdateSubmit,
 };

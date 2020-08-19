@@ -6,5 +6,6 @@ const router = express.Router();
 router.get("/", blogController.renderBlogList);
 router.get("/:id", blogController.renderSingleBlogPage);
 router.delete("/:id", blogController.deleteSingleBlog);
+router.get("/update/:id", blogController.renderUpdatePage);
 
 module.exports = router;

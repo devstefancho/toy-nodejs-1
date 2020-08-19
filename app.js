@@ -26,8 +26,8 @@ app.use(express.static("public"));
 
 app.get("/about", blogController.blogAbout);
 app.get("/create", blogController.blogCreate);
+app.post("/update/", blogController.blogUpdateSubmit);
 app.get("/", blogController.renderBlogListRedirect);
 app.post("/", blogController.blogCreateSubmit);
-
 app.use("/blogs", blogs);
 app.use(blogController.error404);
