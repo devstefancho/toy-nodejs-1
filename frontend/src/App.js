@@ -3,13 +3,15 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Blogs } from "./components/blogs";
 import { About } from "./components/about";
 import { Create } from "./components/create";
-import { Nav } from "./common/nav";
+import { NavBar } from "./common/nav";
+
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
     <>
-      <Nav></Nav>
       <Router>
+        <NavBar></NavBar>
         <div>
           <Route path="/blogs">
             <Blogs></Blogs>
