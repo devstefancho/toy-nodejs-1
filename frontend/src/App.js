@@ -12,7 +12,7 @@ function App() {
     <>
       <Router>
         <NavBar></NavBar>
-        <div>
+        <div id="content-body" className="py-md-4 px-md-3">
           <Route path="/blogs">
             <Blogs></Blogs>
           </Route>
